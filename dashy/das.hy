@@ -3,6 +3,14 @@
    eg. (-dotimes 10 (print it))"
   `(foreach [it (range ~n)] ~@body))
 
+(defn mapcat [f &rest colls]
+  "Apply f to collections and concat the results.
+   The function f must return a collection for this to work "
+  (let [[res []]]
+    (for [coll colls it coll]
+      (.extend res (f it)))
+    res))
+
 ;; Probably need to depreciate the functions below this/ or come up
 ;; with something more convincing
 (defmacro -concat [item &rest coll]

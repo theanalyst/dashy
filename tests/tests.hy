@@ -1,4 +1,4 @@
-(import [dashy.dash [mapcat]])
+(import [dashy.dash [mapcat flatten]])
 (require dashy.dash)
 
 
@@ -20,3 +20,9 @@
 
   (assert (= 55 (let [] (-dotimes 10 (.next fibs)) (.next fibs) )))
   )
+
+(defn test-flatten []
+  "flattening a list/tuple"
+  (assert (= [1 2 3 4] (flatten [1 2 [3 4]])))
+  (assert (= [1 2 3 4] (flatten [1 2 3 4])))
+  (assert (= [1 2 3 4] (flatten (, 1 (, 2 3) 4)))))

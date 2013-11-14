@@ -11,6 +11,11 @@
       (.extend res (f it)))
     res))
 
+(defn flatten [lst]
+  "returns a list that has all members as a single flat list "
+  (if (and (iterable? lst) (iterable? (rest lst)))
+    (mapcat flatten lst)
+    [lst]))
 ;; Probably need to depreciate the functions below this/ or come up
 ;; with something more convincing
 (defmacro -concat [item &rest coll]

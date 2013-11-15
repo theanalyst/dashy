@@ -4,8 +4,11 @@
 
 (defn test-mapcat []
   "test mapcat"
+  (defn simple-gen [l] (foreach [it l] (yield it)))
   (assert (= [1 2 3 4 5 6] (mapcat reversed [[3 2 1] [6 5 4]])))
-  (assert (= [0 1 2 1 2 3 2 3 4] (mapcat (fn [n] [(dec n) n (inc n)]) [1 2 3]))))
+  (assert (= [0 1 2 1 2 3 2 3 4] (mapcat (fn [n] [(dec n) n (inc n)]) [1 2 3])))
+  (assert (= [0 1 2 1 2 3 2 3 4]
+	     (mapcat (fn [n] [(dec n) n (inc n)]) (simple-gen [1 2 3])))))
 
 (defn test-dotimes []
   "test dotimes; since this has side effects and doesn't return

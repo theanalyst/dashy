@@ -7,7 +7,7 @@
   "Apply f to collections and concat the results.
    The function f must return a collection for this to work "
   (let [[res []]]
-    (for [coll colls it coll]
+    (for [coll colls it (iter coll)]
       (.extend res (f it)))
     res))
 

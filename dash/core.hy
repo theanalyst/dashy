@@ -11,6 +11,21 @@
       (.extend res (f it)))
     res))
 
+(defn partition [coll n &optional (steps 0)]
+  "Returns a list with items grouped in n sized sublists at offset
+   `steps' apart, if there are not enough items to make the last group
+    n sized, they are dropped"
+  (let [[res []]
+	[citer (iter coll)]
+	[part (list (take n citer))]
+	[step (or steps n) ]]
+    (if (not (and (pos? n) (pos? step)))
+      (raise (ValueError "partition steps must be positive"))
+      (while (= (len part) n)
+	(.append res part)
+	(setv part (+ (list (drop step part)) (list (take step citer))))))
+    res))
+
 (defn flatten [lst]
   "returns a list that has all members as a single flat list "
   (if (or (instance? list lst) (instance? tuple lst))

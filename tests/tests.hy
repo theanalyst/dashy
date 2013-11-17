@@ -1,6 +1,15 @@
-(import [dashy.dash [mapcat flatten]])
+(import [dashy.dash [mapcat flatten partition]])
 (require dashy.dash)
+(require tests.testy)
 
+(tests mapcat-tests-v1
+      (env (defn simple-gen [l] (foreach [it l] (yield it))))
+      (assert-example (mapcat reversed [[3 2 1] [6 5 4]]) => [1 2 3 4 5 6]))
+
+(tests test-partition
+       (assert-example (partition (range 6) 2) ⇔ [[0 1] [2 3] [4 5]])
+       (assert-example (partition (range 6) 4) ⇔ [[0 1 2 3]])
+       (assert-example (partition (range 6) 2 1) ⇔ [[0 1] [1 2] [2 3] [3 4] [4 5]]))
 
 (defn test-mapcat []
   "test mapcat"

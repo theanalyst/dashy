@@ -1,4 +1,4 @@
-from setuptools import find_packages, setup
+from setuptools import setup
 
 PKG = "dashy"
 
@@ -12,7 +12,8 @@ setup (
     name=PKG,
     version=__version__,
     install_requires=install_requires,
-    package=find_packages(exclude=['tests*']),
+    packages=['dash'],
+    package_data={'dash': ['*.hy']},
     author="Abhishek L",
     author_email="xxx@gmail.com",
     long_description=long_description,

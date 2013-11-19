@@ -1,5 +1,5 @@
-(import [dashy.dash [mapcat flatten partition]])
-(require dashy.dash)
+(import [dash.core [mapcat flatten partition]])
+(require dash.core)
 (require tests.testy)
 
 (tests mapcat-tests-v1

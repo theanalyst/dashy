@@ -1,4 +1,4 @@
-(import [dashy.dash [partition]])
+(import [dash.core [partition]])
 
 (defmacro env [&rest body] `(do ~@body)) ;;bazinga
 

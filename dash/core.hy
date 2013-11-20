@@ -38,6 +38,17 @@
     (mapcat -flatten-r lst)
     [lst]))
 
+(defn accumulate (coll &optional (f (fn [a b] (+ a b))))
+  "Make an iterator returning accumulated sums, optionally
+   f can be a binary function, and an iterator is returned by
+   repeatedly applying f to the collection"
+  (let [[citer (iter coll)]
+	[acc (next citer)]]
+    (yield acc)
+    (foreach [it citer]
+      (setv acc (f acc it))
+      (yield acc))))
+
 ;; Probably need to depreciate the functions below this/ or come up
 ;; with something more convincing
 (defmacro -concat [item &rest coll]

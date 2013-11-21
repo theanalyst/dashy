@@ -1,4 +1,4 @@
-(import [dash.core [mapcat flatten partition accumulate]])
+(import [dash.core [mapcat flatten partition accumulate take-last last]])
 (import [operator [mul]])
 (require dash.core)
 (require tests.testy)
@@ -15,6 +15,14 @@
 (tests test-accumulate
        (assert-example (list (accumulate (range 1 6))) ⇔ [1 3 6 10 15])
        (assert-example (list (accumulate (range 1 6) mul)) ⇔ [1 2 6 24 120]))
+
+(tests test-take-last
+       (assert-example (list (take-last 3 (range 6))) ⇔ [5 4 3])
+       (assert-example (list (take-last 1 (range 6))) ⇔ [5]))
+
+(tests test-last
+       (assert-example (last (range 6)) ⇔ 5)
+       (assert-example (last [1 2 3]) ⇔ 3))
 
 (defn test-mapcat []
   "test mapcat"

@@ -3,6 +3,16 @@
    eg. (-dotimes 10 (print it))"
   `(foreach [it (range ~n)] ~@body))
 
+(defn take-last (n coll)
+  "Take n items from the coll in reverse order"
+  (import [collections [deque]])
+  (let [[dq (deque coll)]]
+    (-dotimes n (yield (.pop dq)))))
+
+(defn last (coll)
+  "The last item of a collection"
+  (next (take-last 1 coll)))
+
 (defn mapcat [f &rest colls]
   "Apply f to collections and concat the results.
    The function f must return a collection for this to work "

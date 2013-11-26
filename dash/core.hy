@@ -1,3 +1,5 @@
+(import [collections [deque]])
+
 (defmacro -dotimes [n &rest body]
   "Anaphoric form of dotimes; allows `it' to be used in the body for
    eg. (-dotimes 10 (print it))"
@@ -5,7 +7,6 @@
 
 (defn take-last (n coll)
   "Take n items from the coll in reverse order"
-  (import [collections [deque]])
   (let [[dq (deque coll)]]
     (-dotimes n (yield (.pop dq)))))
 

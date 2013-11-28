@@ -3,51 +3,47 @@
 (require dash.core)
 (require tests.testy)
 
-(tests mapcat-tests-v1
-      (env (defn simple-gen [l] (foreach [it l] (yield it))))
-      (assert-example (mapcat reversed [[3 2 1] [6 5 4]]) => [1 2 3 4 5 6]))
-
 (tests test-partition
-       (assert-example (partition (range 6) 2) ⇔ [[0 1] [2 3] [4 5]])
-       (assert-example (partition (range 6) 4) ⇔ [[0 1 2 3]])
-       (assert-example (partition (range 6) 2 1) ⇔ [[0 1] [1 2] [2 3] [3 4] [4 5]]))
+       (examples
+	(partition (range 6) 2) ⇔ [[0 1] [2 3] [4 5]]
+	(partition (range 6) 4) ⇔ [[0 1 2 3]]
+	(partition (range 6) 2 1) ⇔ [[0 1] [1 2] [2 3] [3 4] [4 5]]))
 
 (tests test-accumulate
-       (assert-example (list (accumulate (range 1 6))) ⇔ [1 3 6 10 15])
-       (assert-example (list (accumulate (range 1 6) mul)) ⇔ [1 2 6 24 120]))
+       (examples (list (accumulate (range 1 6))) ⇔ [1 3 6 10 15]
+		 (list (accumulate (range 1 6) mul)) ⇔ [1 2 6 24 120]))
 
 (tests test-take-last
-       (assert-example (list (take-last 3 (range 6))) ⇔ [5 4 3])
-       (assert-example (list (take-last 1 (range 6))) ⇔ [5]))
+       (examples (list (take-last 3 (range 6))) ⇔ [5 4 3]
+		 (list (take-last 1 (range 6))) ⇔ [5]))
 
 (tests test-last
-       (assert-example (last (range 6)) ⇔ 5)
-       (assert-example (last [1 2 3]) ⇔ 3))
+       (examples (last (range 6)) ⇔ 5
+		 (last [1 2 3]) ⇔ 3))
 
-(defn test-mapcat []
+(tests test-mapcat []
   "test mapcat"
-  (defn simple-gen [l] (foreach [it l] (yield it)))
-  (assert (= [1 2 3 4 5 6] (mapcat reversed [[3 2 1] [6 5 4]])))
-  (assert (= [0 1 2 1 2 3 2 3 4] (mapcat (fn [n] [(dec n) n (inc n)]) [1 2 3])))
-  (assert (= [0 1 2 1 2 3 2 3 4]
-	     (mapcat (fn [n] [(dec n) n (inc n)]) (simple-gen [1 2 3])))))
+  (env (defn simple-gen [l] (foreach [it l] (yield it))))
+  (examples [1 2 3 4 5 6] ⇔ (mapcat reversed [[3 2 1] [6 5 4]])
+	    [0 1 2 1 2 3 2 3 4] ⇔ (mapcat (fn [n] [(dec n) n (inc n)]) [1 2 3])
+	    [0 1 2 1 2 3 2 3 4] ⇔
+	    (mapcat (fn [n] [(dec n) n (inc n)]) (simple-gen [1 2 3]))))
 
-(defn test-dotimes []
+(tests test-dotimes []
   "test dotimes; since this has side effects and doesn't return
    Kinda gross; need a better example"
-  (defn fibgen [a b]
-    "the canonical ∞ fibonacci generator"
-    (while true
-      (yield a)
-      (setv (, a b) (, b (+ a b)))))
+  (env (defn fibgen [a b]
+	 "the canonical ∞ fibonacci generator"
+	 (while true
+	   (yield a)
+	   (setv (, a b) (, b (+ a b)))))
 
-  (def fibs (fibgen 0 1))
+       (def fibs (fibgen 0 1)))
 
-  (assert (= 55 (let [] (-dotimes 10 (.next fibs)) (.next fibs) )))
-  )
+  (examples (let [] (-dotimes 10 (.next fibs)) (.next fibs)) ⇔ 55))
 
-(defn test-flatten []
+(tests test-flatten []
   "flattening a list/tuple"
-  (assert (= [1 2 3 4] (flatten [1 2 [3 4]])))
-  (assert (= [1 2 3 4] (flatten [1 2 3 4])))
-  (assert (= [1 2 3 4] (flatten (, 1 (, 2 3) 4)))))
+  (examples [1 2 3 4] ⇔ (flatten [1 2 [3 4]])
+	    [1 2 3 4] ⇔ (flatten [1 2 3 4])
+	    [1 2 3 4] ⇔ (flatten (, 1 (, 2 3) 4))))

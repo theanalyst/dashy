@@ -1,12 +1,14 @@
+;; A simpler way to write examples and convert to tests
+;; Almost entirely borrowed from dash.el
+
 (import [dash.core [partition]])
 
 (defmacro env [&rest body] `(do ~@body)) ;;bazinga
 
-;;FIXME bro
 (defmacro examples [&rest body]
-  `(do ~@(map 'assert-example (partition body 3))))
+  `(do ~@(map assert-example (partition body 3))))
 
-(defmacro assert-example [&rest body]
+(defn assert-example [body]
   (let [[actual (car body)]
 	[expected (nth body 2)]]
     `(assert (= ~actual ~expected))))

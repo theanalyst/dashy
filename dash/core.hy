@@ -1,9 +1,15 @@
 (import [collections [deque]])
 
+(if-python2 (import [itertools [imap :as map]]) None)
+
 (defmacro -dotimes [n &rest body]
   "Anaphoric form of dotimes; allows `it' to be used in the body for
    eg. (-dotimes 10 (print it))"
   `(foreach [it (range ~n)] ~@body))
+
+(defmacro -map [f coll]
+  "Anaphoric map form, `it' is allowed for variable capture"
+  `(map (fn [it] ~f) ~coll))
 
 (defn take-last (n coll)
   "Take n items from the coll in reverse order"

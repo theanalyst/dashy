@@ -46,6 +46,12 @@
 
   (examples (do (-dotimes 10 (.next fibs)) (.next fibs)) ⇔ 55))
 
+(tests test--map
+  "Tests for anaphoric version of map"
+  (examples (list (-map (* it it) (range 1 5))) ⇔ [1 4 9 16]
+	    (list (-map (inc it) (range 1 5))) ⇔ [2 3 4 5]
+	    (empty? (-map (inc it) (range 1 1))) ⇔ True))
+
 (tests test-flatten
   "Tests for flattening a list/tuple"
   (examples [1 2 3 4] ⇔ (flatten [1 2 [3 4]])

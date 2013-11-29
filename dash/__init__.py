@@ -1,2 +1,2 @@
 import hy
-from dash.core import mapcat, flatten, partition
+from .core import (mapcat, flatten, partition, take_last, last)

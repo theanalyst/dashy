@@ -66,6 +66,11 @@
       (setv acc (f acc it))
       (yield acc))))
 
+(defn complement [f]
+  "Returns the complement of a function"
+  (fn [&rest args]
+    (not (apply f args))))
+
 ;; Probably need to depreciate the functions below this/ or come up
 ;; with something more convincing
 (defmacro -concat [item &rest coll]

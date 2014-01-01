@@ -1,4 +1,4 @@
-(import [dash.core [mapcat flatten partition accumulate take-last last]])
+(import [dash.core [mapcat flatten partition accumulate take-last last complement]])
 (import [operator [mul]])
 (require dash.core)
 (require tests.testy)
@@ -45,6 +45,13 @@
        (def fibs (fibgen 0 1)))
 
   (examples (do (-dotimes 10 (.next fibs)) (.next fibs)) ⇔ 55))
+
+(tests test-complement
+  "Tests for complement"
+  (examples (list (filter (complement odd?) (range 10))) ⇔
+            (list (filter even? (range 10)))
+	    ((complement even?) 3) ⇔ True
+	    ((complement odd?) 3 ⇔ False)))
 
 (tests test--map
   "Tests for anaphoric version of map"

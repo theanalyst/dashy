@@ -5,7 +5,7 @@
 (defmacro -dotimes [n &rest body]
   "Anaphoric form of dotimes; allows `it' to be used in the body for
    eg. (-dotimes 10 (print it))"
-  `(foreach [it (range ~n)] ~@body))
+  `(for [it (range ~n)] ~@body))
 
 (defmacro -map [f coll]
   "Anaphoric map form, `it' is allowed for variable capture"
@@ -62,7 +62,7 @@
   (let [[citer (iter coll)]
 	[acc (next citer)]]
     (yield acc)
-    (foreach [it citer]
+    (for [it citer]
       (setv acc (f acc it))
       (yield acc))))
 

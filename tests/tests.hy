@@ -27,7 +27,7 @@
 
 (tests test-mapcat
   "Tests mapcat"
-  (env (defn simple-gen [l] (foreach [it l] (yield it))))
+  (env (defn simple-gen [l] (for [it l] (yield it))))
   (examples [1 2 3 4 5 6] ⇔ (mapcat reversed [[3 2 1] [6 5 4]])
 	    [0 1 2 1 2 3 2 3 4] ⇔ (mapcat (fn [n] [(dec n) n (inc n)]) [1 2 3])
 	    [0 1 2 1 2 3 2 3 4] ⇔
